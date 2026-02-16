@@ -20,7 +20,7 @@ A Python GUI application that allows you to capture screenshots of custom-define
 
 1. Navigate to the project directory:
    ```
-   cd "c:\Users\USSECOO1\OneDrive - ABB\Documents\Python\Screenshot-Helper"
+   cd "c:\Screenshot-Helper"
    ```
 
 2. Activate the virtual environment:
