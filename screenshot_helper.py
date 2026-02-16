@@ -89,6 +89,9 @@ class ScreenshotHelper:
         add_button = ttk.Button(button_frame, text="Add Area", command=self.add_area)
         add_button.pack(side="right", padx=5)
         
+        rename_button = ttk.Button(button_frame, text="Rename", command=self.rename_area)
+        rename_button.pack(side="right", padx=5)
+        
         delete_button = ttk.Button(button_frame, text="Delete Selected", command=self.delete_area)
         delete_button.pack(side="right", padx=5)
         
@@ -225,7 +228,9 @@ class ScreenshotHelper:
                 y2 = max(self.start_y, event.y_root)
                 
                 if x2 - x1 > 5 and y2 - y1 > 5:  # Minimum size check
+                    area_num = len(self.config["screen_areas"]) + 1
                     self.config["screen_areas"].append({
+                        "name": f"Area {area_num}",
                         "x1": x1, "y1": y1, "x2": x2, "y2": y2
                     })
                     self.save_config()
@@ -276,6 +281,54 @@ class ScreenshotHelper:
         self.canvases = []
         self.rects = []
     
+    def rename_area(self):
+        """Rename the selected area"""
+        selection = self.areas_listbox.curselection()
+        if not selection:
+            messagebox.showwarning("Rename Area", "Please select an area to rename!")
+            return
+        
+        index = selection[0]
+        area = self.config["screen_areas"][index]
+        current_name = area.get('name', f'Area {index + 1}')
+        
+        # Create a simple dialog for renaming
+        dialog = tk.Toplevel(self.root)
+        dialog.title("Rename Area")
+        dialog.geometry("400x150")
+        dialog.resizable(False, False)
+        
+        label = ttk.Label(dialog, text="Enter new name for this area:")
+        label.pack(pady=10)
+        
+        entry = ttk.Entry(dialog, width=40)
+        entry.insert(0, current_name)
+        entry.pack(pady=5)
+        entry.focus()
+        
+        def save_name():
+            new_name = entry.get().strip()
+            if new_name:
+                self.config["screen_areas"][index]['name'] = new_name
+                self.save_config()
+                self.refresh_areas_list()
+                self.update_status(f"Area renamed to '{new_name}'", "green")
+                dialog.destroy()
+            else:
+                messagebox.showwarning("Empty Name", "Please enter a valid name!")
+        
+        button_frame = ttk.Frame(dialog)
+        button_frame.pack(pady=20)
+        
+        ok_button = ttk.Button(button_frame, text="OK", command=save_name)
+        ok_button.pack(side="left", padx=5)
+        
+        cancel_button = ttk.Button(button_frame, text="Cancel", command=dialog.destroy)
+        cancel_button.pack(side="left", padx=5)
+        
+        dialog.transient(self.root)
+        dialog.grab_set()
+    
     def delete_area(self):
         """Delete the selected area"""
         selection = self.areas_listbox.curselection()
@@ -292,7 +345,9 @@ class ScreenshotHelper:
         """Refresh the areas listbox"""
         self.areas_listbox.delete(0, tk.END)
         for i, area in enumerate(self.config["screen_areas"], 1):
-            area_text = f"Area {i}: ({area['x1']}, {area['y1']}) to ({area['x2']}, {area['y2']})"
+            area_name = area.get('name', f'Area {i}')
+            coords = f"({area['x1']}, {area['y1']}) to ({area['x2']}, {area['y2']})"
+            area_text = f"{area_name}: {coords}"
             self.areas_listbox.insert(tk.END, area_text)
     
     def setup_hotkey_listener(self):
@@ -342,7 +397,8 @@ class ScreenshotHelper:
                     # Convert mss image to PIL Image
                     img = Image.frombytes('RGB', screenshot.size, screenshot.rgb)
                     
-                    filename = save_location / f"screenshot_{timestamp}_area{i}.png"
+                    area_name = area.get('name', f'Area{i}').replace(' ', '_')
+                    filename = save_location / f"{area_name}_{timestamp}.png"
                     img.save(filename)
             
             self.update_status(f"Screenshots saved to {save_location}", "green")

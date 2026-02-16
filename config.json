@@ -6,5 +6,20 @@
         "shift": false,
         "alt": false
     },
-    "screen_areas": []
+    "screen_areas": [
+        {
+            "name": "Code",
+            "x1": -708,
+            "y1": -1045,
+            "x2": 644,
+            "y2": -333
+        },
+        {
+            "name": "Mylearning",
+            "x1": 1325,
+            "y1": -986,
+            "x2": 2551,
+            "y2": -97
+        }
+    ]
 }
