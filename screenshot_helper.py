@@ -14,7 +14,7 @@ class ScreenshotHelper:
     def __init__(self, root):
         self.root = root
         self.root.title("Screenshot Helper")
-        self.root.geometry("600x700")
+        self.root.geometry("500x600")
         self.root.resizable(True, True)
         
         self.config_file = Path(__file__).parent / "config.json"
@@ -94,6 +94,9 @@ class ScreenshotHelper:
         
         delete_button = ttk.Button(button_frame, text="Delete Selected", command=self.delete_area)
         delete_button.pack(side="right", padx=5)
+        
+        clear_button = ttk.Button(button_frame, text="Clear All", command=self.clear_all_areas)
+        clear_button.pack(side="right", padx=5)
         
         # Listbox with scrollbar
         scrollbar = ttk.Scrollbar(areas_frame)
@@ -340,6 +343,14 @@ class ScreenshotHelper:
             self.update_status("Area deleted", "green")
         else:
             messagebox.showwarning("Delete Area", "Please select an area to delete!")
+    
+    def clear_all_areas(self):
+        """Delete all screen areas"""
+        if self.config["screen_areas"]:
+            self.config["screen_areas"].clear()
+            self.save_config()
+            self.refresh_areas_list()
+            self.update_status("All areas cleared", "green")
     
     def refresh_areas_list(self):
         """Refresh the areas listbox"""
