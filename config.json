@@ -1,5 +1,5 @@
 {
-    "save_location": "C:/Users/USSECOO1/OneDrive - ABB/Pictures/test1",
+    "save_location": "C:/Users/USSECOO1/ABB/PP Richmond COE - Documents/Testing/26002_HPG MV Demos/Corscale 4_15/Screenshots",
     "hotkey": {
         "key": "`",
         "ctrl": false,
@@ -8,18 +8,32 @@
     },
     "screen_areas": [
         {
-            "name": "Code",
-            "x1": -708,
-            "y1": -1045,
-            "x2": 644,
-            "y2": -333
+            "name": "PQA Input",
+            "x1": 2924,
+            "y1": -1501,
+            "x2": 3723,
+            "y2": -872
         },
         {
-            "name": "Mylearning",
-            "x1": 1325,
-            "y1": -986,
-            "x2": 2551,
-            "y2": -97
+            "name": "PQA Output",
+            "x1": 3890,
+            "y1": -1501,
+            "x2": 4689,
+            "y2": -873
+        },
+        {
+            "name": "HPG 1",
+            "x1": 947,
+            "y1": -2073,
+            "x2": 2846,
+            "y2": -879
+        },
+        {
+            "name": "HPG 2",
+            "x1": -976,
+            "y1": -2074,
+            "x2": 926,
+            "y2": -881
         }
     ]
 }

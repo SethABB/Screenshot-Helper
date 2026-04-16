@@ -62,11 +62,15 @@ class ScreenshotHelper:
         save_frame = ttk.LabelFrame(self.root, text="Save Location", padding=10)
         save_frame.pack(fill="x", padx=10, pady=5)
         
-        self.save_location_label = ttk.Label(save_frame, text=self.config["save_location"] or "No location selected")
+        # Create an inner frame to control layout
+        path_frame = ttk.Frame(save_frame)
+        path_frame.pack(fill="x", expand=True)
+        
+        self.save_location_label = ttk.Label(path_frame, text=self.config["save_location"] or "No location selected", foreground="gray")
         self.save_location_label.pack(fill="x", side="left", expand=True)
         
         browse_button = ttk.Button(save_frame, text="Browse", command=self.browse_folder)
-        browse_button.pack(side="left", padx=5)
+        browse_button.pack(side="right", padx=5)
         
         # Hotkey Frame
         hotkey_frame = ttk.LabelFrame(self.root, text="Hotkey Configuration", padding=10)
